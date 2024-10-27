@@ -1,10 +1,12 @@
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
 
-const SORT_BY_ALPHABET = 'by_alph';
-const SORT_BY_LENGTH = 'by_length';
+enum SortBy {
+  alph = 'by_alph' ,
+  size = 'by_length'
+};
 
 export const goodsFromServer = [
   'Dumplings',
@@ -19,13 +21,16 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-
-function sorteGoods(goods: string[], sortedField:string, reversed:boolean): string[] {
+function sortGoods(
+  goods: string[],
+  sortedField: SortBy | null,
+  reversed: boolean,
+): string[] {
   goods.sort((a, b) => {
     switch (sortedField) {
-      case SORT_BY_ALPHABET:
+      case SortBy.alph:
         return a.localeCompare(b);
-      case SORT_BY_LENGTH:
+      case SortBy.size:
         return a.length - b.length;
       default:
         return 0;
@@ -39,17 +44,20 @@ function sorteGoods(goods: string[], sortedField:string, reversed:boolean): stri
   return goods;
 }
 
-
 export const App: React.FC = () => {
-  const [sortedField, setSortedField] = useState('');
+  const [sortedField, setSortedField] = useState<SortBy | null>(null);
   const [reversed, setReversed] = useState(false);
 
-  let goods = sorteGoods([...goodsFromServer], sortedField, reversed);
+  let  goods = sortGoods([...goodsFromServer], sortedField, reversed)
 
   function resetSortedGoods() {
-    setSortedField('');
+    setSortedField(null);
     setReversed(false);
     goods = [...goodsFromServer];
+  }
+
+  function changeGoods (field: SortBy){
+    setSortedField(field);
   }
 
   return (
@@ -60,9 +68,9 @@ export const App: React.FC = () => {
           className={cn({
             button: true,
             'is-info': true,
-            'is-light': SORT_BY_ALPHABET !== sortedField,
+            'is-light': SortBy.alph !== sortedField,
           })}
-          onClick={() => setSortedField(SORT_BY_ALPHABET)}
+          onClick={() => changeGoods(SortBy.alph)}
         >
           Sort alphabetically
         </button>
@@ -72,9 +80,9 @@ export const App: React.FC = () => {
           className={cn({
             button: true,
             'is-success': true,
-            'is-light': SORT_BY_LENGTH !== sortedField,
+            'is-light': SortBy.size !== sortedField,
           })}
-          onClick={() => setSortedField(SORT_BY_LENGTH)}
+          onClick={() => changeGoods(SortBy.size)}
         >
           Sort by length
         </button>
