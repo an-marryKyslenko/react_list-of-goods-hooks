@@ -4,9 +4,9 @@ import './App.scss';
 import cn from 'classnames';
 
 enum SortBy {
-  alph = 'by_alph' ,
-  size = 'by_length'
-};
+  alph = 'by_alph',
+  size = 'by_length',
+}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
   const [sortedField, setSortedField] = useState<SortBy | null>(null);
   const [reversed, setReversed] = useState(false);
 
-  let  goods = sortGoods([...goodsFromServer], sortedField, reversed)
+  let goods = sortGoods([...goodsFromServer], sortedField, reversed);
 
   function resetSortedGoods() {
     setSortedField(null);
@@ -56,7 +56,7 @@ export const App: React.FC = () => {
     goods = [...goodsFromServer];
   }
 
-  function changeGoods (field: SortBy){
+  function changeGoods(field: SortBy) {
     setSortedField(field);
   }
 
