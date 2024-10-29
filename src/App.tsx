@@ -4,8 +4,8 @@ import './App.scss';
 import cn from 'classnames';
 
 enum SortBy {
-  alph = 'by_alph',
-  size = 'by_length',
+  alph = 'alph',
+  size = 'length',
 }
 
 export const goodsFromServer = [
